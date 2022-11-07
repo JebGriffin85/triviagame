@@ -26,10 +26,6 @@ export default function Game () {
 
     }
 
-    function returnHome () {
-        setCurrentScreen('mainMenu')
-    }
-
     return (
         <div id='mainContainer'>
             game container
@@ -55,7 +51,7 @@ export default function Game () {
                 
                  </div>
              ))}
-             <button onClick={returnHome}>back</button>
+             <button onClick={() => setGameScreen('mainMenu')}>back</button>
             </div>
             }
 
@@ -65,6 +61,9 @@ export default function Game () {
                     <button onClick={(() => setGameScreen('New Game'))} >back </button>
                 </div>
             }
+
+
+
         </div>
     );
 };
