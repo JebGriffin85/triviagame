@@ -17,34 +17,54 @@ export default function Game () {
         'I am Death incarnate!'
     ];
 
-    const [currentScreen, setCurrentScreen] = React.useState('startGame');
-
+    const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
+    const [difficulty, setDifficulty] = React.useState(null);
 
     function setGameScreen (screen, id) {
         setCurrentScreen(screen)
-        console.log(document.getElementById(id))
+        console.log(screen)
 
     }
 
-    function setSelectionStyles () {
-
+    function returnHome () {
+        setCurrentScreen('mainMenu')
     }
 
     return (
         <div id='mainContainer'>
             game container
-            {currentScreen === 'startGame' &&
+
+            {/******************************* Main Menu **************************/}
+            {currentScreen === 'mainMenu' &&
             <div>
             {options.map((option, i) => (
                 <div id={i} key={i} onClick={() => setGameScreen(option, i)}>
-                 <Selection key={i} text={option}>asdfsadf</Selection>
+                 <Selection text={option}>asdfsadf</Selection>
                 
                  </div>
              ))}
              </div>
             }
-            <button onClick={() => setGameScreen('startGame')}>sdf</button>
-            <button onClick={() => setGameScreen(null)}>sdf</button>
+
+            {/******************************* New Game **************************/}
+            {currentScreen === 'New Game' && 
+            <div>
+                 {difficulties.map((option, i) => (
+                <div id={i} key={i} onClick={() => setGameScreen('startLevel', i)}>
+                 <Selection text={option}>asdfsadf</Selection>
+                
+                 </div>
+             ))}
+             <button onClick={returnHome}>back</button>
+            </div>
+            }
+
+            {/******************************* Start a level **************************/}
+            {currentScreen === 'startLevel' && 
+                <div>
+                    <button onClick={(() => setGameScreen('New Game'))} >back </button>
+                </div>
+            }
         </div>
     );
 };
