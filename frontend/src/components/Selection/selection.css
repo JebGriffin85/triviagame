@@ -1,0 +1,7 @@
+#mainSelection {
+    border: 3px solid transparent;
+}
+
+#mainSelection:hover{
+    border: 3px solid red;
+}
