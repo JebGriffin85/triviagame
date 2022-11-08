@@ -19,9 +19,27 @@ module.exports = (sequelize, DataTypes) => {
     difficulty: {
       type: DataTypes.STRING
     }
-  }, {});
+  }, {
+    defaultScope: {
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'difficulty']
+      }
+    }
+  });
+
+  
   Questions.associate = function(models) {
     // associations can be defined here
   };
+
+  Questions.getEasyQuestions = async function () {
+    const data = await Questions.findAll({
+      where: {
+          difficulty: 'easy'
+      }
+  });
+  return data;
+  }
+
   return Questions;
 };

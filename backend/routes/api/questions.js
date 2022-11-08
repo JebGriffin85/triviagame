@@ -6,13 +6,8 @@ const router = express.Router();
 
 router.get('/easy', asyncHandler (async (req, res, next) => {
     
-    const data = await Questions.findAll({
-        where: {
-            difficulty: 'easy'
-        }
-    });
+    const data = await Questions.getEasyQuestions()
     return res.json(data);
-
 })
 );
 

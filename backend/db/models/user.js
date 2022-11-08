@@ -29,10 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [60, 60]
       }
-    },
-    score: DataTypes.INTEGER,
-    currentLevel: DataTypes.INTEGER,
-    hints: DataTypes.INTEGER
+    }
   }, 
   {
     defaultScope: {
@@ -54,9 +51,9 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  User.prototype.toSafeObject = function () { // remember, this cannot be an arrow function
-    const { id, username, email, score, currentLevel, hints } = this; // context will be the User instance
-    return { id, username, email, score, currentLevel, hints };
+  User.prototype.toSafeObject = function () { 
+    const { id, username, email } = this; // context will be the User instance
+    return { id, username, email };
   };
 
   User.prototype.validatePassword = function (password) {
