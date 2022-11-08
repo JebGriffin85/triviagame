@@ -24,35 +24,27 @@ export default function Game () {
     
     const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
     const [loaded, setLoaded] = React.useState(false);
+    const [question, setQuestion] = React.useState('loading');
     let questionsArray = useSelector((state) => state.questions);
-    let currentQuestion;
-    let currentIndex;
-    let allQuestions;
 
-    if (loaded === true) {
-        allQuestions = questionsArray;
-        console.log(allQuestions.questions)
-        currentQuestion = getRandomQuestion(questionsArray.questions)
-    }
 
     function setGameScreen (screen, id) {
         setCurrentScreen(screen);
 
         if (screen === 'startLevel' && id === 0) {
-            let check = dispatch(getEasyQuestions());
-            check.then((val) => {
-                setLoaded(true)
-
-            })
+        
+           dispatch(getEasyQuestions()).then(() => setLoaded(true))
         }
     }
 
-    function selectedCorrectAnswer () {
-        let curIndex = allQuestions.questions.indexOf(currentQuestion)
-        allQuestions.questions.splice(curIndex, 1)
-        console.log(curIndex)
-        console.log(allQuestions)
-    }
+    // function selectedCorrectAnswer () {
+    //     let curIndex = allQuestions.indexOf(currentQuestion)
+    //     allQuestions.splice(curIndex, 1)
+    //     console.log('current index',curIndex)
+        
+    //     currentQuestion = getRandomQuestion(allQuestions)
+    //     console.log(currentQuestion)
+    // }
 
     return (
         <div id='mainContainer'>
@@ -86,12 +78,14 @@ export default function Game () {
             {/******************************* Start a level **************************/}
             {currentScreen === 'startLevel' && loaded &&
                 <div>
-                    <div>{currentQuestion.question}</div>
-                    <button>{currentQuestion.answerOne}</button>
-                    <button>{currentQuestion.answerTwo}</button>
-                    <button>{currentQuestion.answerThree}</button>
-                    <button onClick={selectedCorrectAnswer}>{currentQuestion.answerCorrect}</button>
-                    {console.log(currentQuestion)}
+                    {console.log(questionsArray.questions[0])}
+                    <div>{questionsArray.questions[0].question}</div>
+                    {/* <div>{question.question}</div>
+                    <button>{question.answerOne}</button>
+                    <button>{question.answerTwo}</button>
+                    <button>{question.answerThree}</button>
+                    <button onClick={selectedCorrectAnswer}>{question.answerCorrect}</button> */}
+
                     <button onClick={(() => setGameScreen('New Game'))} >back </button>
                 </div>
             }
