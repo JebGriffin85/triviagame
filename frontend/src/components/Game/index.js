@@ -21,11 +21,16 @@ export default function Game () {
     const dispatch = useDispatch();
     const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
     const [difficulty, setDifficulty] = React.useState(null);
+    let questionsArray =useSelector((state) => state.questions)
+    if (questionsArray.questions.length) {
 
+        console.log(questionsArray)
+    }
     function setGameScreen (screen, id) {
         setCurrentScreen(screen)
         console.log(screen)
-dispatch(getEasyQuestions())
+        dispatch(getEasyQuestions())
+
     }
 
 
@@ -39,7 +44,7 @@ dispatch(getEasyQuestions())
             <div>
             {options.map((option, i) => (
                 <div id={i} key={i} onClick={() => setGameScreen(option, i)}>
-                 <Selection text={option}>asdfsadf</Selection>
+                 <Selection text={option}></Selection>
                 
                  </div>
              ))}
@@ -51,7 +56,7 @@ dispatch(getEasyQuestions())
             <div>
                  {difficulties.map((option, i) => (
                 <div id={i} key={i} onClick={() => setGameScreen('startLevel', i)}>
-                 <Selection text={option}>asdfsadf</Selection>
+                 <Selection text={option}></Selection>
                 
                  </div>
              ))}
