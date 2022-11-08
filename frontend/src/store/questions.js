@@ -1,4 +1,4 @@
-const GET_EASY_QUESTIONS = 'reservations/getAllRes';
+const GET_EASY_QUESTIONS = 'questions/getEasyQuestions';
 
 const getAllEasy = (questions) => ({
 
@@ -6,10 +6,14 @@ const getAllEasy = (questions) => ({
     payload: questions
 });
 
-export const getEasyQuestions = () => async (dispatch) => {
+export const getEasyQuestions = () => async (dispatch, getState) => {
     const res = await fetch('/api/questions/easy');
     const data = await res.json();
     dispatch(getAllEasy(data))
+    const value = getState().questions
+    if(value){
+        return true
+    }
     
 }
 

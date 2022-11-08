@@ -2,7 +2,8 @@ import * as React from 'react';
 import './game.css';
 import Selection from '../Selection';
 import { useDispatch, useSelector } from 'react-redux';
-import {getEasyQuestions} from '../../store/questions';
+import { getEasyQuestions } from '../../store/questions';
+import { getRandomQuestion } from './utility.js'
 
 export default function Game () {
 
@@ -18,22 +19,40 @@ export default function Game () {
         'Bring \'em on!',
         'I am Death incarnate!'
     ];
+
     const dispatch = useDispatch();
+    
     const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
-    const [difficulty, setDifficulty] = React.useState(null);
-    let questionsArray =useSelector((state) => state.questions)
-    if (questionsArray.questions.length) {
+    const [loaded, setLoaded] = React.useState(false);
+    let questionsArray = useSelector((state) => state.questions);
+    let currentQuestion;
+    let currentIndex;
+    let allQuestions;
 
-        console.log(questionsArray)
+    if (loaded === true) {
+        allQuestions = questionsArray;
+        console.log(allQuestions.questions)
+        currentQuestion = getRandomQuestion(questionsArray.questions)
     }
+
     function setGameScreen (screen, id) {
-        setCurrentScreen(screen)
-        console.log(screen)
-        dispatch(getEasyQuestions())
+        setCurrentScreen(screen);
 
+        if (screen === 'startLevel' && id === 0) {
+            let check = dispatch(getEasyQuestions());
+            check.then((val) => {
+                setLoaded(true)
+
+            })
+        }
     }
 
-
+    function selectedCorrectAnswer () {
+        let curIndex = allQuestions.questions.indexOf(currentQuestion)
+        allQuestions.questions.splice(curIndex, 1)
+        console.log(curIndex)
+        console.log(allQuestions)
+    }
 
     return (
         <div id='mainContainer'>
@@ -65,8 +84,14 @@ export default function Game () {
             }
 
             {/******************************* Start a level **************************/}
-            {currentScreen === 'startLevel' && 
+            {currentScreen === 'startLevel' && loaded &&
                 <div>
+                    <div>{currentQuestion.question}</div>
+                    <button>{currentQuestion.answerOne}</button>
+                    <button>{currentQuestion.answerTwo}</button>
+                    <button>{currentQuestion.answerThree}</button>
+                    <button onClick={selectedCorrectAnswer}>{currentQuestion.answerCorrect}</button>
+                    {console.log(currentQuestion)}
                     <button onClick={(() => setGameScreen('New Game'))} >back </button>
                 </div>
             }
