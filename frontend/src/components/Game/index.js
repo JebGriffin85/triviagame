@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './game.css';
 import Selection from '../Selection';
+import { useDispatch, useSelector } from 'react-redux';
+import {getEasyQuestions} from '../../store/questions';
 
 export default function Game () {
 
@@ -16,15 +18,17 @@ export default function Game () {
         'Bring \'em on!',
         'I am Death incarnate!'
     ];
-
+    const dispatch = useDispatch();
     const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
     const [difficulty, setDifficulty] = React.useState(null);
 
     function setGameScreen (screen, id) {
         setCurrentScreen(screen)
         console.log(screen)
-
+dispatch(getEasyQuestions())
     }
+
+
 
     return (
         <div id='mainContainer'>
