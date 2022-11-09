@@ -24,8 +24,16 @@ export default function Game () {
     
     const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
     const [loaded, setLoaded] = React.useState(false);
-    const [question, setQuestion] = React.useState('loading');
     let questionsArray = useSelector((state) => state.questions);
+    const [question, setQuestion] = React.useState(questionsArray);
+
+    React.useEffect(() => {
+        
+            setQuestion(questionsArray)
+            console.log(question)
+        
+
+    },[questionsArray.questions])
 
 
     function setGameScreen (screen, id) {
@@ -34,6 +42,7 @@ export default function Game () {
         if (screen === 'startLevel' && id === 0) {
         
            dispatch(getEasyQuestions()).then(() => setLoaded(true))
+
         }
     }
 
@@ -78,8 +87,9 @@ export default function Game () {
             {/******************************* Start a level **************************/}
             {currentScreen === 'startLevel' && loaded &&
                 <div>
-                    {console.log(questionsArray.questions[0])}
-                    <div>{questionsArray.questions[0].question}</div>
+                  
+                    {/* <div>{questionsArray.questions[0].question}</div> */}
+                    <div>{question.questions[0].question}</div>
                     {/* <div>{question.question}</div>
                     <button>{question.answerOne}</button>
                     <button>{question.answerTwo}</button>
