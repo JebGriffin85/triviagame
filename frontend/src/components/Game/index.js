@@ -4,8 +4,10 @@ import Selection from '../Selection';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEasyQuestions } from '../../store/questions';
 import { getRandomQuestion } from './utility.js'
+import  testQ from './testq.js';
 
 export default function Game () {
+
 
     const options = [
         'New Game',
@@ -24,36 +26,37 @@ export default function Game () {
     
     const [currentScreen, setCurrentScreen] = React.useState('mainMenu');
     const [loaded, setLoaded] = React.useState(false);
-    let questionsArray = useSelector((state) => state.questions);
-    const [question, setQuestion] = React.useState(questionsArray);
-
-    React.useEffect(() => {
-        
-            setQuestion(questionsArray)
-            console.log(question)
-        
-
-    },[questionsArray.questions])
-
+    const [curQuestion, setCurQuestion] = React.useState(null);
+    updateArray(array.filter(item => item !== itemToRemove));
+    updateArray()
+React.useEffect(() => {
+    dispatch(getEasyQuestions())
+},[dispatch])
+ 
+let curArr;
+const allQuestions = useSelector((state) => state.questions)
 
     function setGameScreen (screen, id) {
+        if (screen === 'startLevel') {
+            curArr = allQuestions.questions;
+            setCurQuestion(getRandomQuestion(curArr));
+            setLoaded(true);
+            console.log(curArr)
+        }
         setCurrentScreen(screen);
 
-        if (screen === 'startLevel' && id === 0) {
-        
-           dispatch(getEasyQuestions()).then(() => setLoaded(true))
-
-        }
+   
     }
 
-    // function selectedCorrectAnswer () {
-    //     let curIndex = allQuestions.indexOf(currentQuestion)
-    //     allQuestions.splice(curIndex, 1)
-    //     console.log('current index',curIndex)
+    function selectedCorrectAnswer () {
+        console.log(curArr)
+        // let curIndex = curArr.indexOf(curQuestion)
+        // curArr.splice(curIndex, 1)
+        // console.log('current index',curIndex)
         
-    //     currentQuestion = getRandomQuestion(allQuestions)
-    //     console.log(currentQuestion)
-    // }
+        // setCurQuestion(getRandomQuestion(curArr));
+        // console.log(curQuestion)
+    }
 
     return (
         <div id='mainContainer'>
@@ -88,13 +91,13 @@ export default function Game () {
             {currentScreen === 'startLevel' && loaded &&
                 <div>
                   
-                    {/* <div>{questionsArray.questions[0].question}</div> */}
-                    <div>{question.questions[0].question}</div>
-                    {/* <div>{question.question}</div>
-                    <button>{question.answerOne}</button>
-                    <button>{question.answerTwo}</button>
-                    <button>{question.answerThree}</button>
-                    <button onClick={selectedCorrectAnswer}>{question.answerCorrect}</button> */}
+                 
+                 
+                    <div>{curQuestion.question}</div>
+                    <button>{curQuestion.answerOne}</button>
+                    <button>{curQuestion.answerTwo}</button>
+                    <button>{curQuestion.answerThree}</button>
+                    <button onClick={selectedCorrectAnswer}>{curQuestion.answerCorrect}</button>
 
                     <button onClick={(() => setGameScreen('New Game'))} >back </button>
                 </div>
